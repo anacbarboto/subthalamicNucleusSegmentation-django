@@ -8,22 +8,21 @@ from .models import Profile
 User = get_user_model()
 
 
-class AuthUserSerializer(ModelSerializer):
-    token = SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = User
-        fields = ('id','first_name', 'last_name', 'username', 'token')
-    
-    def get_token(self, obj):
-        return self.context.get('token', '')
-
-
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = Profile
         fields = ('phone', 'entity', 'role')
+
+class AuthUserSerializer(ModelSerializer):
+    token = SerializerMethodField(read_only=True)
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = ('id','first_name', 'last_name', 'username', 'token', 'profile')
     
+    def get_token(self, obj):
+        return self.context.get('token', '')
 
 class UserSerializer(ModelSerializer):
     profile = ProfileSerializer()
@@ -39,7 +38,7 @@ class UserListSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id','first_name', 'last_name', 'role', 'entity')
+        fields = ('id','first_name', 'last_name', 'username', 'role', 'entity')
 
     def get_role(self, user):
         return user.profile.role

@@ -32,4 +32,13 @@ class LoginView(APIView):
         
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+class LogoutView(APIView):
+    """
+    API endpoint for user login
+    """
+    
+    def post(self, request):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
 

@@ -9,7 +9,8 @@ class Image(models.Model):
     path = models.FileField(upload_to=get_upload_path) 
     T1 = 1
     T2 = 2
-    TYPE_CHOICES = ((T1, 't1'), (T2, 't2'))
+    result = 3
+    TYPE_CHOICES = ((T1, 't1'), (T2, 't2'), (result, 'result'))
     type = models.PositiveSmallIntegerField('type', choices=TYPE_CHOICES, default=T1)
 
     class Meta:
